@@ -1,0 +1,16 @@
+
+clean:
+     [echo] Apache Ant version 1.5.1 compiled on October 2 2002
+     [echo] Java version 1.4
+
+compile-domain:
+
+build-war:
+
+notify:
+     [mail] Failed to initialise MIME mail
+     [mail] Sending email: build results build results
+     [mail] Sent email with 1 attachment
+
+BUILD SUCCESSFUL
+Total time: 2 seconds

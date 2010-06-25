@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+
+<struts-config>
+
+  <form-beans>
+      <form-bean name="searchForm" type="com.strutsrecipes.antbuild.forms.SearchForm"/>
+  </form-beans>
+
+
+  <global-forwards>
+     <forward   name="search" path="/search.jsp"/>
+     <forward   name="searchsubmit" path="/searchsubmit.do"/>
+  </global-forwards>  
+
+
+  <action-mappings>
+    <action path="/searchsubmit"
+            type="com.strutsrecipes.antbuild.actions.SearchAction"
+            name="searchForm"
+            scope="request"
+            input="/search.jsp">
+            <forward name="success" path="/element.jsp"/>
+    </action>
+  </action-mappings>
+
+
+</struts-config>

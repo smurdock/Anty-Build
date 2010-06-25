@@ -1,0 +1,52 @@
+<project name="build recipe" default="notify">
+   <property file="build.properties"/>
+  
+    <path id="classpath.base">
+       <pathelement location="${servlet.dir}/${servlet.jar}"/>
+       <pathelement location="${struts.dir}/${struts.jar}"/>
+       <pathelement location="${log4j.dir}/{log4j.jar}"/>
+       <pathelement location="${commons-logging.dir}/${commons-logging.jar}"/>
+       <pathelement location="${commons-beanutils.dir}/${commons-beanutils.jar}"/>
+       <pathelement location="${commons-digester.dir}/${commons-digester.jar}"/>
+       <pathelement location="${commons-collections.dir}/${commons-collections.jar}"/>
+    </path>
+
+    <target name="clean">
+       <delete dir="${build.src.dir}"/>
+       <delete dir="${dist.dir}"/>
+       <mkdir dir="${build.src.dir}"/>
+       <mkdir dir="${dist.dir}"/>
+       <echo message="${ant.version}"/>
+       <echo message="Java version ${ant.java.version}"/>
+    </target>
+
+    <target name="compile-domain" description="compile domain" depends="clean">
+        <javac srcdir="${src.dir}"
+            destdir="${build.src.dir}"
+            debug="${javac.debug}"
+            classpathref="classpath.base"/>
+    </target>
+
+    <target name="build-war" description="build war file" depends="compile-domain">
+      <war warfile="${dist.dir}/${warfile.war}"
+           webxml="${webapp.dir}/WEB-INF/web.xml"
+           manifest="${webapp.dir}/META-INF/MANIFEST.MF">
+           <classes dir="${build.src.dir}"/>
+           <fileset dir="${webapp.dir}">
+              <exclude name="WEB-INF/web.xml"/>
+           </fileset>
+           <lib dir="${webapp.dir}/WEB-INF/lib"/>
+       </war>
+   </target>
+
+   <target name="notify" description="email notification" depends="build-war">
+       <mail mailhost="${smtphost}" 
+             mailport="${smtpport}" 
+             subject="${mailsubject}"
+             tolist="${toaddress}"
+             files="${files}">
+           <from address="${fromaddress}"/>
+           <message>${mailbody}</message>
+       </mail>
+    </target>
+</project>
